@@ -1,0 +1,326 @@
+﻿@page
+@model BankSys.Pages.IndexModel
+@{}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Bank API</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body style="background-color:paleturquoise;">
+
+    <div>
+        <!-- Navigation bar code -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+            <a class="navbar-brand" href="#">Australia Newzealand Bank</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Button to add new employee -->
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <button class="btn btn-outline-dark" data-toggle="modal" data-target="#addEmployee">Add New Employee</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <style>
+            th {
+                color: #fff;
+            }
+
+            .btn {
+                border: 2px solid black;
+                background-color: white;
+                color: black;
+                padding: 14px 28px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            /* Red */
+            .danger {
+                border-color: #f44336;
+                color: red;
+            }
+
+                .danger:hover {
+                    background: #f44336;
+                    color: white;
+                }
+
+            /* Green */
+            .success {
+                border-color: #4CAF50;
+                color: green;
+            }
+
+                .success:hover {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+        </style>
+
+
+        <!-- following division is creating main area of the web page where all employee data will display -->
+        <div class="container">
+            <div class="row" id="allEmplyees">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- below mentioned code will create the template to add a new  employee -->
+    <div class="modal" tabindex="-1" role="dialog" id="addEmployee">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="Student_Name">Employee Name</label>
+                            <input type="text" class="form-control" id="employee_Name" aria-describedby="Student_NameHelp" placeholder="Enter Employee Name">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="Email">Employee Position</label>
+                            <input type="text" class="form-control" id="employee_Position" aria-describedby="EmailHelp" placeholder="Enter Employee Position">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="Mobile">Employee Email</label>
+                            <input type="text" class="form-control" id="employee_Email" aria-describedby="MobileHelp" placeholder="Enter Employee Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="Course_Name">Employee contact</label>
+                            <input type="text" class="form-control" id="employee_Contact" aria-describedby="course_NameHelp" placeholder="Enter Employee Contact">
+                        </div>
+                        <div class="form-group">
+                            <label for="Course_Duration">Employee Address</label>
+                            <input 0. class="form-control" id="employee_Address" aria-describedby="course_DurationHelp" placeholder="Enter Employee Address">
+                        </div>
+                        <div class="form-group" id="result">
+
+
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="addemployee()">Add Employee</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- below mentioned code will create the template to Update a new employee -->
+    <div class="modal" tabindex="-1" role="dialog" id="updateEmployee">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Employee Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="Update_id" aria-describedby="IdHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="Student_Name">employee Name</label>
+                            <input type="text" class="form-control" id="Update_employee_Name" aria-describedby="Employee_NameHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="Email">employee Position</label>
+                            <input type="text" class="form-control" id="Update_employee_Position" aria-describedby="PositionHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="Mobile">employee Email</label>
+                            <input type="text" class="form-control" id="Update_employee_Email" aria-describedby="EmailHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="Course_Name">employee Contact</label>
+                            <input type="text" class="form-control" id="Update_employee_Contact" aria-describedby="employee_ContactHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="Course_Duration">employee Address</label>
+                            <input 0. class="form-control" id="Update_employee_Address" aria-describedby="employee_AddressHelp">
+                        </div>
+                        <div class="form-group" id="update_result">
+
+
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="updateEmployee()">Update</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <! -- java script files that will help to link the front end and back end -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        var uri = 'api/banks';
+        //Java script main function so JS start from here
+        $(document).ready(function () {
+            $.getJSON(uri)
+                .done(function (data) {
+                    $("#StudentsTemplate").tmpl(data).appendTo("#allEmplyees");
+                });
+        });
+        // function to get all  employee data and show on web page
+        function getAllStudents() {
+            $.getJSON(uri)
+                .done(function (data) {
+                    $("#allEmplyees").text("");
+                    $("#StudentsTemplate").tmpl(data).appendTo("#allEmplyees");
+                });
+        }
+        // function to add data for new employee
+        function addemployee() {
+            var _employee_Name = $('#employee_Name').val();
+            var _employee_Position = $('#employee_Position').val();
+            var _employee_Email = $('#employee_Email').val();
+            var _employee_Contact = $('#employee_Contact').val();
+            var _employee_Address = $('#employee_Address').val();
+            var Student = {
+                employee_Name: _employee_Name,
+                employee_Position: _employee_Position,
+                employee_Email: _employee_Email,
+                employee_Contact: _employee_Contact,
+                employee_Address: _employee_Address
+            };
+            $.ajax({
+                type: "POST",
+                url: uri,
+                data: JSON.stringify(Student),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#result").html("New  employee data is added successfully");
+                getAllStudents();
+            }).fail(function (jqXHR, textStatus) {
+                $("#result").html("An error occured when Adding the  employee record.");
+            });
+        }
+        //funtion to delete a particular employee based on id
+        function remove(id) {
+            var yes = confirm("Are you sure you want to delete this employee?");
+            if (yes) {
+                $.ajax({
+                    type: "DELETE",
+                    url: uri + "/" + id,
+                }).done(function (response) {
+                    $("#result").html("employee data is deleted successfully");
+                    getAllStudents();
+                }).fail(function (jqXHR, textStatus) {
+                    $("#result").html("An error occured when deleting the student record.");
+                });
+            }
+        }
+
+
+        // funtion to fill the data into update template
+        function getStudentForUpdate(id) {
+            $.ajax({
+                type: "GET",
+                url: uri + "/" + id,
+                contentType: "application/json"
+            }).done(function (response) {
+                $('#Update_id').val(response.id);
+                $('#Update_employee_Name').val(response.employee_Name);
+                $('#Update_employee_Position').val(response.employee_Position);
+                $('#Update_employee_Email').val(response.employee_Email);
+                $('#Update_employee_Contact').val(response.employee_Contact);
+                $('#Update_employee_Address').val(response.employee_Address);
+            });
+        }
+        // function to update data of the employee
+        function updateEmployee() {
+            var _employee_Name = $('#Update_employee_Name').val();
+            var _employee_Position = $('#Update_employee_Position').val();
+            var _employee_Email = $('#Update_employee_Email').val();
+            var _employee_Contact = $('#Update_employee_Contact').val();
+            var _employee_Address = $('#Update_employee_Address').val();
+            var StudentUpdate = {
+                id: parseInt($('#Update_id').val()),
+                employee_Name: _employee_Name,
+                employee_Position: _employee_Position,
+                employee_Email: _employee_Email,
+                employee_Contact: _employee_Contact,
+                employee_Address: _employee_Address
+            };
+            $.ajax({
+                type: "PUT",
+                url: uri + "/" + $('#Update_id').val(),
+                data: JSON.stringify(StudentUpdate),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#update_result").html("Record is updated Successfully");
+                getAllStudents();
+            }).fail(function (jqXHR, textStatus) {
+                $("#update_result").html("An error occured when updating  employee record.");
+            });
+        }
+    </script>
+
+
+
+
+    <!-- it shows card to display each employee record -->
+    <script id="StudentsTemplate" type="text/x-jquery-tmpl">
+        <!-- <div class=" col-lg-12" style="margin:10px;"> -->
+        <div class="w3-card-4 w3-grey" style="width:40%">
+            <header class="w3-container w3-light-grey">
+                <h3>${employee_Name}</h3>
+            </header>
+            <div class="card-body">
+                <hr />
+                <!--<img src="img_avatar3.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">-->
+                <h5>Position  -${employee_Position}</h5><br />
+
+                <h5>Email     -${employee_Email}</h5><br />
+
+                <h5>Contact   -${employee_Contact}</h5><br />
+
+                <h5>Address   -${employee_Address}</h5><br />
+
+
+                <br>
+            </div>
+            <button class="btn w3-block success" onclick="getStudentForUpdate('${id}')" data-toggle="modal" data-target="#updateEmployee">Update</button>
+            <a href="#" class="btn w3-block danger" onclick="remove('${id}')">Delete</a>
+        </div>
+
+    </script>
+
+</body>
+</html >
+
+
+
+
